@@ -34,6 +34,7 @@ dotnet run --project src/BestWorld.Client/BestWorld.Client.csproj
 - shows the mouse cursor
 - renders a visible playable area inside the window
 - renders mocked obstacle rectangles inside the playable area
+- renders one mocked NPC in the town map
 - renders mocked transition areas that swap between two local maps
 - shows the current map name in a small HUD label
 - lets you move the player rectangle with `WASD` or arrow keys

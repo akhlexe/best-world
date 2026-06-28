@@ -38,6 +38,13 @@ public sealed class GameClient : Game
                         TriggerBounds: new Rectangle(1080, 260, 80, 140),
                         TargetMapName: "Prototype Field",
                         TargetSpawn: new Vector2(240f, 300f))
+                ],
+                Npcs:
+                [
+                    new NpcDefinition(
+                        Name: "Town Guide",
+                        Bounds: new Rectangle(620, 240, 48, 64),
+                        DialogueText: "Welcome to Best World. Talk to me later once interaction is wired.")
                 ]),
             new MapDefinition(
                 Name: "Prototype Field",
@@ -55,7 +62,8 @@ public sealed class GameClient : Game
                         TriggerBounds: new Rectangle(120, 260, 80, 140),
                         TargetMapName: "Prototype Town",
                         TargetSpawn: new Vector2(1000f, 300f))
-                ])
+                ],
+                Npcs: [])
         ],
         "Prototype Town");
 

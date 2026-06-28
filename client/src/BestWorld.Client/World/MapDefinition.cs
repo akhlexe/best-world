@@ -8,4 +8,5 @@ public sealed record MapDefinition(
     Vector2 PlayerSpawn,
     Color BackgroundColor,
     IReadOnlyList<Rectangle> CollisionRectangles,
-    IReadOnlyList<ZoneTransition> TransitionTriggers);
+    IReadOnlyList<ZoneTransition> TransitionTriggers,
+    IReadOnlyList<NpcDefinition> Npcs);

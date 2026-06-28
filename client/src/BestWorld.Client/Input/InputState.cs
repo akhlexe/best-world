@@ -19,6 +19,11 @@ public sealed class InputState
         return WasKeyPressed(Keys.Escape);
     }
 
+    public bool IsInteractPressed()
+    {
+        return WasKeyPressed(Keys.E);
+    }
+
     public bool IsMoveUpDown()
     {
         return IsKeyDown(Keys.W) || IsKeyDown(Keys.Up);

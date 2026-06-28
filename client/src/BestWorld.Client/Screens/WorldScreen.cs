@@ -12,6 +12,7 @@ public sealed class WorldScreen
     private readonly Color _worldBorderColor = new(95, 126, 103);
     private readonly Color _collisionColor = new(112, 87, 61);
     private readonly Color _transitionColor = new(83, 121, 173);
+    private readonly Color _npcColor = new(189, 143, 92);
     private readonly Color _playerColor = new(110, 191, 120);
     private readonly Dictionary<string, MapDefinition> _maps;
 
@@ -56,6 +57,7 @@ public sealed class WorldScreen
     {
         spriteBatch.Draw(pixelTexture, _currentMap.Bounds, _currentMap.BackgroundColor);
         DrawCollisionRectangles(spriteBatch, pixelTexture);
+        DrawNpcs(spriteBatch, pixelTexture);
         DrawTransitionTriggers(spriteBatch, pixelTexture);
         DrawWorldBorder(spriteBatch, pixelTexture);
 
@@ -103,6 +105,14 @@ public sealed class WorldScreen
         foreach (var transitionTrigger in _currentMap.TransitionTriggers)
         {
             spriteBatch.Draw(pixelTexture, transitionTrigger.TriggerBounds, _transitionColor);
+        }
+    }
+
+    private void DrawNpcs(SpriteBatch spriteBatch, Texture2D pixelTexture)
+    {
+        foreach (var npc in _currentMap.Npcs)
+        {
+            spriteBatch.Draw(pixelTexture, npc.Bounds, _npcColor);
         }
     }
 
