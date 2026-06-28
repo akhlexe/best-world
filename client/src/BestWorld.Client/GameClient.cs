@@ -22,7 +22,12 @@ public sealed class GameClient : Game
         _worldScreen = new WorldScreen(new MapDefinition(
             Name: "Prototype Field",
             Bounds: new Rectangle(120, 80, 1040, 560),
-            PlayerSpawn: new Vector2(600f, 320f)));
+            PlayerSpawn: new Vector2(600f, 320f),
+            CollisionRectangles:
+            [
+                new Rectangle(280, 180, 180, 80),
+                new Rectangle(760, 420, 220, 100)
+            ]));
 
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
