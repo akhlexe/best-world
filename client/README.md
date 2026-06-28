@@ -32,7 +32,9 @@ dotnet run --project src/BestWorld.Client/BestWorld.Client.csproj
 - opens a desktop game window
 - sets the window title to `Best World Prototype`
 - shows the mouse cursor
-- clears the screen every frame
+- renders a visible playable area inside the window
+- lets you move the player rectangle with `WASD` or arrow keys
+- keeps the player inside the playable area bounds
 - exits when you press `Escape`
 
 ## Project Layout
