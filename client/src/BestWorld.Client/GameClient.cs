@@ -2,6 +2,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using BestWorld.Client.Input;
 using BestWorld.Client.Screens;
+using BestWorld.Client.World;
 
 namespace BestWorld.Client;
 
@@ -18,7 +19,10 @@ public sealed class GameClient : Game
     {
         _graphics = new GraphicsDeviceManager(this);
         _input = new InputState();
-        _worldScreen = new WorldScreen();
+        _worldScreen = new WorldScreen(new MapDefinition(
+            Name: "Prototype Field",
+            Bounds: new Rectangle(120, 80, 1040, 560),
+            PlayerSpawn: new Vector2(600f, 320f)));
 
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
