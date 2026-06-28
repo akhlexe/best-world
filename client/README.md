@@ -37,6 +37,8 @@ dotnet run --project src/BestWorld.Client/BestWorld.Client.csproj
 - renders one mocked NPC in the town map
 - renders mocked transition areas that swap between two local maps
 - shows the current map name in a small HUD label
+- shows a `Press E to talk` prompt when you move near the town NPC
+- opens a simple dialogue box when you press `E` near the town NPC
 - lets you move the player rectangle with `WASD` or arrow keys
 - keeps the player inside the playable area bounds
 - blocks the player from moving through mocked obstacles
