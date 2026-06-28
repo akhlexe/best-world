@@ -1,16 +1,24 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using Microsoft.Xna.Framework.Input;
+using BestWorld.Client.Input;
+using BestWorld.Client.Screens;
 
 namespace BestWorld.Client;
 
 public sealed class GameClient : Game
 {
     private readonly GraphicsDeviceManager _graphics;
+    private readonly InputState _input;
+    private readonly WorldScreen _worldScreen;
+
+    private SpriteBatch? _spriteBatch;
+    private Texture2D? _pixelTexture;
 
     public GameClient()
     {
         _graphics = new GraphicsDeviceManager(this);
+        _input = new InputState();
+        _worldScreen = new WorldScreen();
 
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
@@ -27,16 +35,21 @@ public sealed class GameClient : Game
 
     protected override void LoadContent()
     {
+        _spriteBatch = new SpriteBatch(GraphicsDevice);
+        _pixelTexture = new Texture2D(GraphicsDevice, 1, 1);
+        _pixelTexture.SetData([Color.White]);
     }
 
     protected override void Update(GameTime gameTime)
     {
-        var keyboardState = Keyboard.GetState();
+        _input.Update();
 
-        if (keyboardState.IsKeyDown(Keys.Escape))
+        if (_input.IsExitPressed())
         {
             Exit();
         }
+
+        _worldScreen.Update(gameTime, _input);
 
         base.Update(gameTime);
     }
@@ -44,6 +57,10 @@ public sealed class GameClient : Game
     protected override void Draw(GameTime gameTime)
     {
         GraphicsDevice.Clear(new Color(22, 28, 40));
+
+        _spriteBatch!.Begin();
+        _worldScreen.Draw(_spriteBatch, _pixelTexture!);
+        _spriteBatch.End();
 
         base.Draw(gameTime);
     }
