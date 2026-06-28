@@ -6,6 +6,7 @@ CONFIGURATION ?= Debug
 
 restore:
 	dotnet restore $(SOLUTION)
+	dotnet tool restore
 
 build: restore
 	dotnet build $(SOLUTION) -c $(CONFIGURATION)

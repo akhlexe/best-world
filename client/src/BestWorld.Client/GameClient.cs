@@ -14,20 +14,50 @@ public sealed class GameClient : Game
 
     private SpriteBatch? _spriteBatch;
     private Texture2D? _pixelTexture;
+    private SpriteFont? _debugFont;
 
     public GameClient()
     {
         _graphics = new GraphicsDeviceManager(this);
         _input = new InputState();
-        _worldScreen = new WorldScreen(new MapDefinition(
-            Name: "Prototype Field",
-            Bounds: new Rectangle(120, 80, 1040, 560),
-            PlayerSpawn: new Vector2(600f, 320f),
-            CollisionRectangles:
-            [
-                new Rectangle(280, 180, 180, 80),
-                new Rectangle(760, 420, 220, 100)
-            ]));
+        _worldScreen = new WorldScreen(
+        [
+            new MapDefinition(
+                Name: "Prototype Town",
+                Bounds: new Rectangle(120, 80, 1040, 560),
+                PlayerSpawn: new Vector2(220f, 300f),
+                BackgroundColor: new Color(66, 76, 91),
+                CollisionRectangles:
+                [
+                    new Rectangle(340, 180, 220, 100),
+                    new Rectangle(700, 380, 160, 120)
+                ],
+                TransitionTriggers:
+                [
+                    new ZoneTransition(
+                        TriggerBounds: new Rectangle(1080, 260, 80, 140),
+                        TargetMapName: "Prototype Field",
+                        TargetSpawn: new Vector2(240f, 300f))
+                ]),
+            new MapDefinition(
+                Name: "Prototype Field",
+                Bounds: new Rectangle(120, 80, 1040, 560),
+                PlayerSpawn: new Vector2(160f, 300f),
+                BackgroundColor: new Color(51, 70, 57),
+                CollisionRectangles:
+                [
+                    new Rectangle(280, 180, 180, 80),
+                    new Rectangle(760, 420, 220, 100)
+                ],
+                TransitionTriggers:
+                [
+                    new ZoneTransition(
+                        TriggerBounds: new Rectangle(120, 260, 80, 140),
+                        TargetMapName: "Prototype Town",
+                        TargetSpawn: new Vector2(1000f, 300f))
+                ])
+        ],
+        "Prototype Town");
 
         Content.RootDirectory = "Content";
         IsMouseVisible = true;
@@ -47,6 +77,7 @@ public sealed class GameClient : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         _pixelTexture = new Texture2D(GraphicsDevice, 1, 1);
         _pixelTexture.SetData([Color.White]);
+        _debugFont = Content.Load<SpriteFont>("Fonts/DebugFont");
     }
 
     protected override void Update(GameTime gameTime)
@@ -68,7 +99,7 @@ public sealed class GameClient : Game
         GraphicsDevice.Clear(new Color(22, 28, 40));
 
         _spriteBatch!.Begin();
-        _worldScreen.Draw(_spriteBatch, _pixelTexture!);
+        _worldScreen.Draw(_spriteBatch, _pixelTexture!, _debugFont!);
         _spriteBatch.End();
 
         base.Draw(gameTime);

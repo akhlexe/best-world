@@ -6,4 +6,6 @@ public sealed record MapDefinition(
     string Name,
     Rectangle Bounds,
     Vector2 PlayerSpawn,
-    IReadOnlyList<Rectangle> CollisionRectangles);
+    Color BackgroundColor,
+    IReadOnlyList<Rectangle> CollisionRectangles,
+    IReadOnlyList<ZoneTransition> TransitionTriggers);

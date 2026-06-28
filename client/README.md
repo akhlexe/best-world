@@ -33,8 +33,12 @@ dotnet run --project src/BestWorld.Client/BestWorld.Client.csproj
 - sets the window title to `Best World Prototype`
 - shows the mouse cursor
 - renders a visible playable area inside the window
+- renders mocked obstacle rectangles inside the playable area
+- renders mocked transition areas that swap between two local maps
+- shows the current map name in a small HUD label
 - lets you move the player rectangle with `WASD` or arrow keys
 - keeps the player inside the playable area bounds
+- blocks the player from moving through mocked obstacles
 - exits when you press `Escape`
 
 ## Project Layout

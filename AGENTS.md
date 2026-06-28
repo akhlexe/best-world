@@ -22,7 +22,7 @@
 
 ## Verified Commands
 
-- Restore: `dotnet restore BestWorld.Client.sln`
+- Restore: `dotnet restore BestWorld.Client.sln && dotnet tool restore`
 - Build: `dotnet build BestWorld.Client.sln`
 - Run: `dotnet run --project src/BestWorld.Client/BestWorld.Client.csproj`
 
@@ -45,6 +45,7 @@
 - Current rendering is intentionally primitive-based: `GameClient.LoadContent()` creates a 1x1 white `Texture2D`, and `WorldScreen` stretches it to draw the world and player rectangles.
 - Prefer extending this primitive rendering approach for early slices instead of introducing art assets or content-pipeline complexity too early.
 - Keep gameplay rules in `Update` and rendering in `Draw`. The current code already follows that split.
+- The repo now uses `MonoGame.Content.Builder.Task` plus the local `dotnet-mgcb` tool from `client/dotnet-tools.json` to compile `Content.mgcb` during build/run.
 
 ## Change Guidance
 

@@ -7,3 +7,8 @@
 /compress:False
 
 #-------------------------------- References --------------------------------#
+
+#begin Fonts/DebugFont.spritefont
+/importer:FontDescriptionImporter
+/processor:FontDescriptionProcessor
+/build:Fonts/DebugFont.spritefont
