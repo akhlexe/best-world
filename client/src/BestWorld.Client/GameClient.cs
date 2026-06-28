@@ -39,13 +39,17 @@ public sealed class GameClient : Game
                         TargetMapName: "Prototype Field",
                         TargetSpawn: new Vector2(240f, 300f))
                 ],
-                Npcs:
-                [
-                    new NpcDefinition(
-                        Name: "Town Guide",
-                        Bounds: new Rectangle(620, 240, 48, 64),
-                        DialogueText: "Welcome to Best World. Talk to me later once interaction is wired.")
-                ]),
+                 Npcs:
+                 [
+                     new NpcDefinition(
+                         Name: "Town Guide",
+                         Bounds: new Rectangle(620, 240, 48, 64),
+                         DialogueText: "Welcome to Best World. The east gate leads out to the prototype field."),
+                     new NpcDefinition(
+                         Name: "Apprentice Mira",
+                         Bounds: new Rectangle(860, 220, 48, 64),
+                         DialogueText: "I am practicing greetings. If you can read this, the second NPC works.")
+                 ]),
             new MapDefinition(
                 Name: "Prototype Field",
                 Bounds: new Rectangle(120, 80, 1040, 560),
