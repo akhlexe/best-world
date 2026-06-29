@@ -14,6 +14,7 @@ public sealed class GameClient : Game
 
     private SpriteBatch? _spriteBatch;
     private Texture2D? _pixelTexture;
+    private Texture2D? _playerTexture;
     private SpriteFont? _debugFont;
 
     public GameClient()
@@ -95,6 +96,7 @@ public sealed class GameClient : Game
         _spriteBatch = new SpriteBatch(GraphicsDevice);
         _pixelTexture = new Texture2D(GraphicsDevice, 1, 1);
         _pixelTexture.SetData([Color.White]);
+        _playerTexture = Content.Load<Texture2D>("Sprites/WarriorWalk");
         _debugFont = Content.Load<SpriteFont>("Fonts/DebugFont");
     }
 
@@ -116,8 +118,8 @@ public sealed class GameClient : Game
     {
         GraphicsDevice.Clear(new Color(22, 28, 40));
 
-        _spriteBatch!.Begin();
-        _worldScreen.Draw(_spriteBatch, _pixelTexture!, _debugFont!);
+        _spriteBatch!.Begin(samplerState: SamplerState.PointClamp);
+        _worldScreen.Draw(_spriteBatch, _pixelTexture!, _playerTexture!, _debugFont!);
         _spriteBatch.End();
 
         base.Draw(gameTime);

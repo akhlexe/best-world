@@ -9,6 +9,10 @@ namespace BestWorld.Client.Screens;
 public sealed class WorldScreen
 {
     private const int InteractionRange = 28;
+    private const int PlayerAnimationFrameCount = 8;
+    private const int PlayerAnimationFrameSize = 96;
+    private const float PlayerAnimationFrameDuration = 0.12f;
+    private const int PlayerSpriteDrawSize = 64;
     private const string GuideNpcName = "Town Guide";
     private const string ObjectiveHintText = "Objective: Talk to the field scout";
     private const string GuideFollowUpDialogueText = "You already know the way. Head east and check in with the field scout.";
@@ -24,6 +28,8 @@ public sealed class WorldScreen
     private MapDefinition _currentMap;
     private NpcDefinition? _activeDialogueNpc;
     private bool _hasSpokenToGuide;
+    private float _playerAnimationTime;
+    private int _playerAnimationFrame;
     private Vector2 _playerPosition;
     private float _playerSpeed = 240f;
 
@@ -59,6 +65,7 @@ public sealed class WorldScreen
 
         var movement = input.GetMovement();
         var elapsedSeconds = (float)gameTime.ElapsedGameTime.TotalSeconds;
+        UpdatePlayerAnimation(movement, elapsedSeconds);
         var nextPosition = _playerPosition + movement * _playerSpeed * elapsedSeconds;
         var nextPlayerRectangle = new Rectangle(
             (int)nextPosition.X,
@@ -80,7 +87,7 @@ public sealed class WorldScreen
         }
     }
 
-    public void Draw(SpriteBatch spriteBatch, Texture2D pixelTexture, SpriteFont font)
+    public void Draw(SpriteBatch spriteBatch, Texture2D pixelTexture, Texture2D playerTexture, SpriteFont font)
     {
         spriteBatch.Draw(pixelTexture, _currentMap.Bounds, _currentMap.BackgroundColor);
         DrawCollisionRectangles(spriteBatch, pixelTexture);
@@ -89,12 +96,17 @@ public sealed class WorldScreen
         DrawWorldBorder(spriteBatch, pixelTexture);
 
         var playerRectangle = new Rectangle(
-            (int)_playerPosition.X,
+            (int)_playerPosition.X - ((PlayerSpriteDrawSize - _playerBounds.Width) / 2),
             (int)_playerPosition.Y,
-            _playerBounds.Width,
-            _playerBounds.Height);
+            PlayerSpriteDrawSize,
+            PlayerSpriteDrawSize);
+        var playerSourceRectangle = new Rectangle(
+            _playerAnimationFrame * PlayerAnimationFrameSize,
+            0,
+            PlayerAnimationFrameSize,
+            PlayerAnimationFrameSize);
 
-        spriteBatch.Draw(pixelTexture, playerRectangle, _playerColor);
+        spriteBatch.Draw(playerTexture, playerRectangle, playerSourceRectangle, Color.White);
         DrawHud(spriteBatch, pixelTexture, font);
 
         if (_activeDialogueNpc is not null)
@@ -112,6 +124,24 @@ public sealed class WorldScreen
 
         _playerPosition.X = MathHelper.Clamp(_playerPosition.X, minX, maxX);
         _playerPosition.Y = MathHelper.Clamp(_playerPosition.Y, minY, maxY);
+    }
+
+    private void UpdatePlayerAnimation(Vector2 movement, float elapsedSeconds)
+    {
+        if (movement == Vector2.Zero)
+        {
+            _playerAnimationTime = 0f;
+            _playerAnimationFrame = 0;
+            return;
+        }
+
+        _playerAnimationTime += elapsedSeconds;
+
+        while (_playerAnimationTime >= PlayerAnimationFrameDuration)
+        {
+            _playerAnimationTime -= PlayerAnimationFrameDuration;
+            _playerAnimationFrame = (_playerAnimationFrame + 1) % PlayerAnimationFrameCount;
+        }
     }
 
     private void DrawWorldBorder(SpriteBatch spriteBatch, Texture2D pixelTexture)

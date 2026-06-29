@@ -12,3 +12,8 @@
 /importer:FontDescriptionImporter
 /processor:FontDescriptionProcessor
 /build:Fonts/DebugFont.spritefont
+
+#begin Sprites/WarriorWalk.png
+/importer:TextureImporter
+/processor:TextureProcessor
+/build:Sprites/WarriorWalk.png
