@@ -9,6 +9,8 @@ namespace BestWorld.Client.Screens;
 public sealed class WorldScreen
 {
     private const int InteractionRange = 28;
+    private const string GuideNpcName = "Town Guide";
+    private const string ObjectiveHintText = "Objective: Talk to the field scout";
 
     private readonly Rectangle _playerBounds = new(600, 320, 48, 64);
     private readonly Color _worldBorderColor = new(95, 126, 103);
@@ -20,6 +22,7 @@ public sealed class WorldScreen
 
     private MapDefinition _currentMap;
     private NpcDefinition? _activeDialogueNpc;
+    private bool _hasSpokenToGuide;
     private Vector2 _playerPosition;
     private float _playerSpeed = 240f;
 
@@ -42,6 +45,11 @@ public sealed class WorldScreen
         {
             if (input.IsInteractPressed())
             {
+                if (_activeDialogueNpc.Name == GuideNpcName)
+                {
+                    _hasSpokenToGuide = true;
+                }
+
                 _activeDialogueNpc = null;
             }
 
@@ -186,6 +194,11 @@ public sealed class WorldScreen
         spriteBatch.Draw(pixelTexture, backgroundRectangle, new Color(12, 16, 24, 200));
         spriteBatch.DrawString(font, mapLabel, hudPosition, Color.White);
 
+        if (_hasSpokenToGuide)
+        {
+            DrawObjectiveHint(spriteBatch, pixelTexture, font);
+        }
+
         var nearbyNpc = GetNearbyNpc();
 
         if (nearbyNpc is not null && _activeDialogueNpc is null)
@@ -217,7 +230,7 @@ public sealed class WorldScreen
     {
         var prompt = $"Press E to talk to {nearbyNpc.Name}";
         var textSize = font.MeasureString(prompt);
-        var promptPosition = new Vector2(24f, 56f);
+        var promptPosition = new Vector2(24f, _hasSpokenToGuide ? 92f : 56f);
         var backgroundRectangle = new Rectangle(
             (int)promptPosition.X - 10,
             (int)promptPosition.Y - 8,
@@ -226,6 +239,20 @@ public sealed class WorldScreen
 
         spriteBatch.Draw(pixelTexture, backgroundRectangle, new Color(12, 16, 24, 200));
         spriteBatch.DrawString(font, prompt, promptPosition, new Color(255, 230, 170));
+    }
+
+    private void DrawObjectiveHint(SpriteBatch spriteBatch, Texture2D pixelTexture, SpriteFont font)
+    {
+        var textSize = font.MeasureString(ObjectiveHintText);
+        var hintPosition = new Vector2(24f, 56f);
+        var backgroundRectangle = new Rectangle(
+            (int)hintPosition.X - 10,
+            (int)hintPosition.Y - 8,
+            (int)textSize.X + 20,
+            (int)textSize.Y + 16);
+
+        spriteBatch.Draw(pixelTexture, backgroundRectangle, new Color(12, 16, 24, 200));
+        spriteBatch.DrawString(font, ObjectiveHintText, hintPosition, new Color(190, 220, 140));
     }
 
     private void DrawDialogueBox(SpriteBatch spriteBatch, Texture2D pixelTexture, SpriteFont font, NpcDefinition activeDialogueNpc)
