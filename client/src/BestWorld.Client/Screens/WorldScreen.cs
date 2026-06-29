@@ -11,6 +11,7 @@ public sealed class WorldScreen
     private const int InteractionRange = 28;
     private const string GuideNpcName = "Town Guide";
     private const string ObjectiveHintText = "Objective: Talk to the field scout";
+    private const string GuideFollowUpDialogueText = "You already know the way. Head east and check in with the field scout.";
 
     private readonly Rectangle _playerBounds = new(600, 320, 48, 64);
     private readonly Color _worldBorderColor = new(95, 126, 103);
@@ -260,6 +261,7 @@ public sealed class WorldScreen
         var dialogueBounds = new Rectangle(140, 520, 1000, 140);
         var namePosition = new Vector2(dialogueBounds.X + 24, dialogueBounds.Y + 20);
         var textPosition = new Vector2(dialogueBounds.X + 24, dialogueBounds.Y + 56);
+        var dialogueText = GetDialogueText(activeDialogueNpc);
         var closeHint = "Press E to close";
         var closeHintSize = font.MeasureString(closeHint);
         var closeHintPosition = new Vector2(
@@ -269,7 +271,17 @@ public sealed class WorldScreen
         spriteBatch.Draw(pixelTexture, dialogueBounds, new Color(10, 14, 22, 230));
         spriteBatch.Draw(pixelTexture, new Rectangle(dialogueBounds.X, dialogueBounds.Y, dialogueBounds.Width, 4), new Color(122, 170, 220));
         spriteBatch.DrawString(font, activeDialogueNpc.Name, namePosition, new Color(255, 230, 170));
-        spriteBatch.DrawString(font, activeDialogueNpc.DialogueText, textPosition, Color.White);
+        spriteBatch.DrawString(font, dialogueText, textPosition, Color.White);
         spriteBatch.DrawString(font, closeHint, closeHintPosition, new Color(190, 200, 220));
+    }
+
+    private string GetDialogueText(NpcDefinition npc)
+    {
+        if (npc.Name == GuideNpcName && _hasSpokenToGuide)
+        {
+            return GuideFollowUpDialogueText;
+        }
+
+        return npc.DialogueText;
     }
 }

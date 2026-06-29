@@ -67,7 +67,13 @@ public sealed class GameClient : Game
                         TargetMapName: "Prototype Town",
                         TargetSpawn: new Vector2(1000f, 300f))
                 ],
-                Npcs: [])
+                Npcs:
+                [
+                    new NpcDefinition(
+                        Name: "Field Scout",
+                        Bounds: new Rectangle(640, 260, 48, 64),
+                        DialogueText: "The field is quiet for now. Come back later when there is something worth fighting.")
+                ])
         ],
         "Prototype Town");
 
